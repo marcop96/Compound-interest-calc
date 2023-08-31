@@ -1,4 +1,7 @@
-function Result() {
+function Result(props) {
+  console.log(props.yearlyData);
+  const yearlyData = props.yearlyData;
+
   return (
     <table className="result">
       <thead>
@@ -11,13 +14,24 @@ function Result() {
         </tr>
       </thead>
       <tbody>
-        <tr>
+        {yearlyData.map((item) => {
+          return (
+            <tr key={item.year}>
+              <td>{item.year}</td>
+              <td>{item.savingsEndOfYear}</td>
+              <td>{item.yearlyInterest}</td>
+              <td>{item.yearlyInterest + item.savingsEndOfYear}</td>
+              <td>{item.yearlyContribution}</td>
+            </tr>
+          );
+        })}
+        {/* <tr>
           <td>YEAR NUMBER</td>
-          <td>TOTAL SAVINGS END OF YEAR</td>
+          <td>TOTAL SAVINGS</td>
           <td>INTEREST GAINED IN YEAR</td>
           <td>TOTAL INTEREST GAINED</td>
           <td>TOTAL INVESTED CAPITAL</td>
-        </tr>
+        </tr> */}
       </tbody>
     </table>
   );
