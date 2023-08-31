@@ -7,8 +7,6 @@ function App() {
 
   const handleYearlyDataChange = (data) => {
     setYearlyData(data);
-
-    console.log(yearlyData);
   };
   return (
     <div>
