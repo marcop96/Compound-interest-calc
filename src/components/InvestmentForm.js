@@ -17,7 +17,6 @@ function InvestmentForm({ onYearlyDataChange }) {
         yearlyContribution: yearlyContribution,
       });
     } // do something with yearlyData ...
-    console.log(yearlyData);
     onYearlyDataChange(yearlyData);
   };
   const handleSubmit = (event) => {

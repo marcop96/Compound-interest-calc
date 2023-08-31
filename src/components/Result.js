@@ -1,5 +1,4 @@
 function Result(props) {
-  console.log(props.yearlyData);
   const yearlyData = props.yearlyData;
 
   return (
@@ -25,13 +24,6 @@ function Result(props) {
             </tr>
           );
         })}
-        {/* <tr>
-          <td>YEAR NUMBER</td>
-          <td>TOTAL SAVINGS</td>
-          <td>INTEREST GAINED IN YEAR</td>
-          <td>TOTAL INTEREST GAINED</td>
-          <td>TOTAL INVESTED CAPITAL</td>
-        </tr> */}
       </tbody>
     </table>
   );
