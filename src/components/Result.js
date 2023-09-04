@@ -17,10 +17,10 @@ function Result(props) {
           return (
             <tr key={item.year}>
               <td>{item.year}</td>
-              <td>{item.savingsEndOfYear}</td>
+              <td>{item.savings}</td>
               <td>{item.yearlyInterest}</td>
-              <td>{item.yearlyInterest + item.savingsEndOfYear}</td>
-              <td>{item.yearlyContribution}</td>
+              <td>{item.totalInterest}</td>
+              <td>{item.investedCapital}</td>
             </tr>
           );
         })}
