@@ -44,30 +44,32 @@ function InvestmentForm({ onYearlyDataChange }) {
   function validateInputs() {
     if (currentSavings === "") {
       setCurrentSavingsValid(false);
-      return;
     } else {
       setCurrentSavingsValid(true);
     }
     if (yearlyContribution === "") {
       setYearlyContributionValid(false);
-      return;
     } else {
       setYearlyContributionValid(true);
     }
     if (expectedReturn === "") {
       setExpectedReturnValid(false);
-      return;
     } else {
       setExpectedReturnValid(true);
     }
-    if (duration === "") {
+    if (duration === "" || duration < 1) {
       setDurationValid(false);
-      return;
     } else {
       setDurationValid(true);
     }
-
-    calculateHandler();
+    if (
+      currentSavingsValid &&
+      yearlyContributionValid &&
+      expectedReturnValid &&
+      durationValid
+    ) {
+      calculateHandler();
+    }
   }
   return (
     <form className="form" onSubmit={handleSubmit}>
