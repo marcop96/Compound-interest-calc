@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   const [currentSavings, setCurrentSavings] = useState("");
@@ -18,7 +18,7 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
     for (let i = 0; i < duration; i++) {
       const yearlyInterest = (savings * expectedReturn) / 100;
       savings = savings + yearlyInterest + yearlyContribution;
-
+      //TODO clean this
       totalInterest = totalInterest + yearlyInterest;
       investedCapital = investedCapital + yearlyContribution;
       yearlyData.push({
@@ -62,14 +62,15 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
     resetStates();
     onShowTableChange(false);
   }
+  useEffect(() => {
+    validateInputs();
+  }, [currentSavings, yearlyContribution, expectedReturn, duration]);
   function validateInputs() {
     // TODO:fix  savings.tofixed(2) is not a function when one initial investment OR yearly savings is empty
     //TODO Fix bug where initial investment let empty is still valid
-
+    //TODO switch instead of ifs
     if (currentSavings === "") {
-      console.log(currentSavings);
       setCurrentSavingsValid(false);
-      console.log(currentSavingsValid);
     } else {
       setCurrentSavingsValid(true);
     }
