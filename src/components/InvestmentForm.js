@@ -2,32 +2,38 @@ import { useState } from "react";
 
 function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   const [currentSavings, setCurrentSavings] = useState("");
-  const [currentSavingsValid, setCurrentSavingsValid] = useState(true);
+  const [currentSavingsValid, setCurrentSavingsValid] = useState(false);
   const [yearlyContribution, setYearlyContribution] = useState("");
-  const [yearlyContributionValid, setYearlyContributionValid] = useState(true);
+  const [yearlyContributionValid, setYearlyContributionValid] = useState(false);
   const [expectedReturn, setExpectedReturn] = useState("");
-  const [expectedReturnValid, setExpectedReturnValid] = useState(true);
+  const [expectedReturnValid, setExpectedReturnValid] = useState(false);
   const [duration, setDuration] = useState("");
-  const [durationValid, setDurationValid] = useState(true);
+  const [durationValid, setDurationValid] = useState(false);
   const yearlyData = [];
 
   const calculateHandler = () => {
-    let savings = currentSavings;
+    let savings = parseFloat(currentSavings);
     let totalInterest = 0;
     let investedCapital = savings;
     for (let i = 0; i < duration; i++) {
       const yearlyInterest = (savings * expectedReturn) / 100;
       savings = savings + yearlyInterest + yearlyContribution;
+
       totalInterest = totalInterest + yearlyInterest;
       investedCapital = investedCapital + yearlyContribution;
       yearlyData.push({
         year: i + 1,
-        totalInterest: totalInterest.toFixed(2),
-        savings: savings.toFixed(2),
-        yearlyInterest: yearlyInterest.toFixed(2),
-        savingsEndOfYear: currentSavings.toFixed(2),
-        investedCapital: investedCapital.toFixed(2),
+        totalInterest: isNaN(totalInterest) ? null : totalInterest.toFixed(2),
+        savings: isNaN(savings) ? null : savings.toFixed(2),
+        yearlyInterest: isNaN(yearlyInterest)
+          ? null
+          : yearlyInterest.toFixed(2),
+        savingsEndOfYear: isNaN(currentSavings) ? null : savings.toFixed(2),
+        investedCapital: isNaN(investedCapital)
+          ? null
+          : investedCapital.toFixed(2),
       });
+
       onShowTableChange(true);
     }
 
@@ -58,8 +64,12 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   }
   function validateInputs() {
     // TODO:fix  savings.tofixed(2) is not a function when one initial investment OR yearly savings is empty
+    //TODO Fix bug where initial investment let empty is still valid
+
     if (currentSavings === "") {
+      console.log(currentSavings);
       setCurrentSavingsValid(false);
+      console.log(currentSavingsValid);
     } else {
       setCurrentSavingsValid(true);
     }
@@ -79,12 +89,15 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
       setDurationValid(true);
     }
     if (
-      currentSavingsValid &&
-      yearlyContributionValid &&
-      expectedReturnValid &&
-      durationValid
+      +currentSavingsValid &&
+      +yearlyContributionValid &&
+      +expectedReturnValid &&
+      +durationValid
     ) {
       calculateHandler();
+    } else {
+      console.log("no ejecuta calculateHandler");
+      return;
     }
   }
   return (
