@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function InvestmentForm({ onYearlyDataChange }) {
+function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   const [currentSavings, setCurrentSavings] = useState("");
   const [currentSavingsValid, setCurrentSavingsValid] = useState(true);
   const [yearlyContribution, setYearlyContribution] = useState("");
@@ -10,6 +10,7 @@ function InvestmentForm({ onYearlyDataChange }) {
   const [duration, setDuration] = useState("");
   const [durationValid, setDurationValid] = useState(true);
   const yearlyData = [];
+  const [showTable, setShowTable] = useState(false);
 
   const calculateHandler = () => {
     let savings = currentSavings;
@@ -29,6 +30,7 @@ function InvestmentForm({ onYearlyDataChange }) {
         investedCapital: investedCapital.toFixed(2),
       });
     }
+
     onYearlyDataChange(yearlyData);
   };
   const handleSubmit = (event) => {
@@ -40,6 +42,8 @@ function InvestmentForm({ onYearlyDataChange }) {
     setYearlyContribution("");
     setExpectedReturn("");
     setDuration("");
+    setShowTable(false);
+    onShowTableChange(false);
   }
   function validateInputs() {
     if (currentSavings === "") {
@@ -68,6 +72,8 @@ function InvestmentForm({ onYearlyDataChange }) {
       expectedReturnValid &&
       durationValid
     ) {
+      setShowTable(true);
+      onShowTableChange(true);
       calculateHandler();
     }
   }

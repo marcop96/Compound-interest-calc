@@ -4,16 +4,20 @@ import InvestmentForm from "./components/InvestmentForm";
 import { useState } from "react";
 function App() {
   const [yearlyData, setYearlyData] = useState([]);
-
+  const [showTable, setShowTable] = useState(false);
   const handleYearlyDataChange = (data) => {
     setYearlyData(data);
   };
+
   return (
     <div>
       <Header />
-      <InvestmentForm onYearlyDataChange={handleYearlyDataChange} />
+      <InvestmentForm
+        onYearlyDataChange={handleYearlyDataChange}
+        onShowTableChange={setShowTable}
+      />
 
-      <Result yearlyData={yearlyData} />
+      <Result yearlyData={yearlyData} showTable={showTable} />
     </div>
   );
 }
