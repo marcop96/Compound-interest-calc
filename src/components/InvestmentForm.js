@@ -29,19 +29,24 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
         savingsEndOfYear: currentSavings.toFixed(2),
         investedCapital: investedCapital.toFixed(2),
       });
+      setShowTable(true);
+      onShowTableChange(true);
     }
-
+    
     onYearlyDataChange(yearlyData);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
     validateInputs();
   };
-  function hideResults(event) {
+  function emptyInputs(){
     setCurrentSavings("");
     setYearlyContribution("");
     setExpectedReturn("");
     setDuration("");
+  }
+  function reset(event) {
+    emptyInputs()
     setShowTable(false);
     onShowTableChange(false);
   }
@@ -72,8 +77,7 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
       expectedReturnValid &&
       durationValid
     ) {
-      setShowTable(true);
-      onShowTableChange(true);
+
       calculateHandler();
     }
   }
@@ -134,7 +138,7 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
         </p>
       </div>
       <p className="actions">
-        <button type="reset" className="buttonAlt" onClick={hideResults}>
+        <button type="reset" className="buttonAlt" onClick={reset}>
           Reset
         </button>
         <button type="submit" className="button">
