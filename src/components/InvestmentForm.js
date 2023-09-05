@@ -10,7 +10,6 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   const [duration, setDuration] = useState("");
   const [durationValid, setDurationValid] = useState(true);
   const yearlyData = [];
-  const [showTable, setShowTable] = useState(false);
 
   const calculateHandler = () => {
     let savings = currentSavings;
@@ -29,28 +28,36 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
         savingsEndOfYear: currentSavings.toFixed(2),
         investedCapital: investedCapital.toFixed(2),
       });
-      setShowTable(true);
       onShowTableChange(true);
     }
-    
+
     onYearlyDataChange(yearlyData);
   };
   const handleSubmit = (event) => {
+    // TODO fix bug where double submit is needed if previosly inputs where invalid and then fixed
     event.preventDefault();
     validateInputs();
   };
-  function emptyInputs(){
+  function emptyInputs() {
     setCurrentSavings("");
     setYearlyContribution("");
     setExpectedReturn("");
     setDuration("");
   }
-  function reset(event) {
-    emptyInputs()
-    setShowTable(false);
+
+  function resetStates() {
+    setCurrentSavingsValid(true);
+    setYearlyContributionValid(true);
+    setExpectedReturnValid(true);
+    setDurationValid(true);
+  }
+  function reset() {
+    emptyInputs();
+    resetStates();
     onShowTableChange(false);
   }
   function validateInputs() {
+    // TODO:fix  savings.tofixed(2) is not a function when one initial investment OR yearly savings is empty
     if (currentSavings === "") {
       setCurrentSavingsValid(false);
     } else {
@@ -77,7 +84,6 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
       expectedReturnValid &&
       durationValid
     ) {
-
       calculateHandler();
     }
   }
