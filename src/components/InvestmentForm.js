@@ -40,13 +40,22 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-
     setValidValues({
       savingsValid: validateInputs(values.savings),
       yearlyContributionValid: validateInputs(values.yearlyContribution),
       expectedReturnValid: validateInputs(values.expectedReturn),
       durationValid: validateInputs(values.duration),
     });
+
+    if (
+      !validValues.savingsValid ||
+      !validValues.yearlyContributionValid ||
+      !validValues.expectedReturnValid ||
+      !validValues.durationValid
+    ) {
+      console.log(validValues);
+      return;
+    }
     calculateHandler();
   };
 
@@ -64,6 +73,12 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   }
 
   function reset() {
+    setValidValues({
+      savingsValid: true,
+      yearlyContributionValid: true,
+      expectedReturnValid: true,
+      durationValid: true,
+    });
     emptyInputs();
     onShowTableChange(false);
   }
