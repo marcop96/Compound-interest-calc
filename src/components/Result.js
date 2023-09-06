@@ -1,3 +1,5 @@
+import React from 'react'
+
 function Result(props) {
   const yearlyData = props.yearlyData;
   const showTable = props.showTable;
