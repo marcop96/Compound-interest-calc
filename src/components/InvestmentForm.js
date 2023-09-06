@@ -9,6 +9,13 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
     expectedReturn: "",
     duration: "",
   });
+
+  const [validValues, setValidValues] = useState({
+    savingsValid: true,
+    yearlyContributionValid: true,
+    expectedReturnValid: true,
+    durationValid: true,
+  });
   const calculateHandler = () => {
     // TODO FIX CALCULATIONS
     let investedCapital = +values.savings;
@@ -29,15 +36,23 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
       });
       onShowTableChange(true);
     }
-    console.log(yearlyData);
-
     onYearlyDataChange(yearlyData);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(values);
+
+    setValidValues({
+      savingsValid: validateInputs(values.savings),
+      yearlyContributionValid: validateInputs(values.yearlyContribution),
+      expectedReturnValid: validateInputs(values.expectedReturn),
+      durationValid: validateInputs(values.duration),
+    });
     calculateHandler();
   };
+
+  function validateInputs(input) {
+    return input > 0 || isNaN(input);
+  }
 
   function emptyInputs() {
     setValues({
@@ -54,11 +69,13 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   }
 
   return (
+    // TODO fix styles with class
     <form className="form" onSubmit={handleSubmit}>
       <div className="input-group">
         <p>
           <label htmlFor="current-savings">Initial Investment ($)</label>
           <input
+            style={{ border: !validValues.savingsValid && "1px solid red" }}
             type="number"
             id="current-savings"
             value={values.savings}
@@ -73,6 +90,9 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
         <p>
           <label htmlFor="yearly-contribution">Yearly Savings ($)</label>
           <input
+            style={{
+              border: !validValues.yearlyContributionValid && "1px solid red",
+            }}
             type="number"
             id="yearly-contribution"
             value={values.yearlyContribution}
@@ -91,6 +111,9 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
             Expected Interest (%, per year)
           </label>
           <input
+            style={{
+              border: !validValues.expectedReturnValid && "1px solid red",
+            }}
             type="number"
             id="expected-return"
             value={values.expectedReturn}
@@ -105,6 +128,7 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
         <p>
           <label htmlFor="duration">Investment Duration (years)</label>
           <input
+            style={{ border: !validValues.durationValid && "1px solid red" }}
             type="number"
             id="duration"
             value={values.duration}
