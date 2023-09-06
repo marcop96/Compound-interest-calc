@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
-import React from 'react';
+import { useState } from "react";
+import React from "react";
 
 function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
   const yearlyData = [];
   const [values, setValues] = useState({
-    savings: '',
-    yearlyContribution: '',
-    expectedReturn: '',
-    duration: '',
+    savings: "",
+    yearlyContribution: "",
+    expectedReturn: "",
+    duration: "",
   });
   const calculateHandler = () => {
+    // TODO FIX CALCULATIONS
     let investedCapital = +values.savings;
     for (let i = 0; i < values.duration; i++) {
       const yearlyInterest = (+values.savings * values.expectedReturn) / 100;
@@ -37,6 +38,20 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
     console.log(values);
     calculateHandler();
   };
+
+  function emptyInputs() {
+    setValues({
+      savings: "",
+      yearlyContribution: "",
+      expectedReturn: "",
+      duration: "",
+    });
+  }
+
+  function reset() {
+    emptyInputs();
+    onShowTableChange(false);
+  }
 
   return (
     <form className="form" onSubmit={handleSubmit}>
@@ -103,7 +118,7 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
         </p>
       </div>
       <p className="actions">
-        <button type="reset" className="buttonAlt">
+        <button type="reset" className="buttonAlt" onClick={reset}>
           Reset
         </button>
         <button type="submit" className="button">
