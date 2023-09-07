@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 function Result(props) {
   const yearlyData = props.yearlyData;
@@ -6,8 +6,14 @@ function Result(props) {
   if (!showTable) {
     return (
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <h1 style={{ color: "rgb(48, 126, 100)", content: "center", fontWeight: 'bold' }}>
-          please fill the inputs  
+        <h1
+          style={{
+            color: "rgb(48, 126, 100)",
+            content: "center",
+            fontWeight: "bold",
+          }}
+        >
+          please fill the inputs
         </h1>
       </div>
     );

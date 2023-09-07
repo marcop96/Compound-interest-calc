@@ -2,7 +2,6 @@ import { useState } from "react";
 import React from "react";
 
 function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
-  const yearlyData = [];
   const [values, setValues] = useState({
     savings: "",
     yearlyContribution: "",
@@ -17,27 +16,41 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
     durationValid: true,
   });
   const calculateHandler = () => {
-    // TODO FIX CALCULATIONS
-    let investedCapital = +values.savings;
-    for (let i = 0; i < values.duration; i++) {
-      const yearlyInterest = (+values.savings * values.expectedReturn) / 100;
-      let savings =
-        +values.savings + +values.expectedReturn + +values.yearlyContribution;
+    const yearlyData = [];
+    let investedCapital = parseFloat(values.savings);
 
-      //TODO clean this
-      let totalInterest = +values.expectedReturn + +yearlyInterest;
-      investedCapital = +investedCapital + +values.expectedReturn;
+    for (let i = 0; i < values.duration; i++) {
+      // Calculate yearly interest based on the current invested capital
+      const yearlyInterest =
+        (investedCapital * parseFloat(values.expectedReturn)) / 100;
+
+      // Calculate the new invested capital, including contributions and interest
+      investedCapital = parseFloat(
+        (
+          investedCapital +
+          yearlyInterest +
+          parseFloat(values.yearlyContribution)
+        ).toFixed(2)
+      );
+
       yearlyData.push({
         year: i + 1,
-        savings: savings,
-        yearlyInterest,
-        totalInterest,
-        investedCapital,
+        savings: investedCapital.toFixed(2),
+        yearlyInterest: yearlyInterest.toFixed(2),
+        totalInterest:
+          yearlyData.length === 0
+            ? yearlyInterest.toFixed(2)
+            : (
+                parseFloat(yearlyData[i - 1].totalInterest) + yearlyInterest
+              ).toFixed(2),
+        investedCapital: investedCapital.toFixed(2),
       });
-      onShowTableChange(true);
     }
+
+    onShowTableChange(true);
     onYearlyDataChange(yearlyData);
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setValidValues({
@@ -58,6 +71,7 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
     calculateHandler();
   };
 
+  // TODO FIX VALIDATION, NOT WORKING PROPERLY
   function validateInputs(input) {
     return input > 0 || isNaN(input);
   }
@@ -81,7 +95,6 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
     emptyInputs();
     onShowTableChange(false);
   }
-
   return (
     // TODO fix styles with class
     <form className="form" onSubmit={handleSubmit}>
