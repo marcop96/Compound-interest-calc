@@ -66,7 +66,7 @@ function InvestmentForm({ onYearlyDataChange, onShowTableChange }) {
       !validValues.expectedReturnValid ||
       !validValues.durationValid
     ) {
-      return;
+      return onShowTableChange(false);
     }
     calculateHandler();
   };
